@@ -61,6 +61,7 @@
       thisProduct.data = data;
       
       thisProduct.renderInMenu();
+      thisProduct.getElements();
       thisProduct.initAccordion();
       
       console.log('new Product:', thisProduct);
@@ -81,14 +82,26 @@
       console.log('show menuContainer:', menuContainer);
     }
 
+    getElements(){
+      const thisProduct = this;
+    
+      thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
+      thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form);
+      console.log('abc', thisProduct.form);
+      thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
+      console.log('bca', thisProduct.formInputs);
+      thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
+      thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
+    }
+
     initAccordion(){
       const thisProduct = this;
       console.log('show this:', this);
       /* find the clickable trigger (the element that should react to clicking) */
-      const clickableTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
-      console.log('show clickableTrigger:,', clickableTrigger);
+      // const clickableTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
       /* START: add event listener to clickable trigger on event click */
-      clickableTrigger.addEventListener('click', function(event) {
+      thisProduct.accordionTrigger.addEventListener('click', function(event) {
+        console.log('show thisProduct.accordionTrigger:', thisProduct.accordionTrigger);
         /* prevent default action for event */
         event.preventDefault();
         /* find active product (product that has active class) */
@@ -102,6 +115,14 @@
         thisProduct.element.classList.toggle(classNames.menuProduct.wrapperActive);
         console.log('show active toggle:', thisProduct.element);
       });
+    }
+
+    initOrderForm(){
+
+    }
+
+    processOrder(){
+      
     }
   }
 
@@ -121,7 +142,7 @@
 
     initData: function(){
       const thisApp = this;
-
+      console.log('thisApp', thisApp);
       thisApp.data = dataSource;
     },
 
