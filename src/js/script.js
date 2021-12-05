@@ -45,7 +45,7 @@
     amountWidget: {
       defaultValue: 1,
       defaultMin: 1,
-      defaultMax: 9,
+      defaultMax: 10,
     }
   };
 
@@ -190,6 +190,8 @@
           }
         }
       }
+      // multiply price by amount
+      price *= thisProduct.amountWidget.value;
       // update calculated price in the HTML
       thisProduct.priceElem.innerHTML = price;
     }
@@ -197,6 +199,9 @@
     initAmountWidget(){
       const thisProduct = this;
       thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
+      thisProduct.amountWidgetElem.addEventListener('updated', function(){
+        thisProduct.processOrder();
+      });
     }
   }
 
@@ -206,7 +211,7 @@
       console.log('AmountWidget:', thisWidget);
       console.log('constructor arguments:', element);
       thisWidget.getElements(element);
-      thisWidget.setValue(thisWidget.input.value);
+      thisWidget.setValue(settings.amountWidget.defaultValue);
       thisWidget.initActions();
     }
 
@@ -222,15 +227,16 @@
     setValue(value){
       const thisWidget = this;
       const newValue = parseInt(value);
-      console.log('pokaż isNaN(newValue): ', isNaN(newValue));
-      /* TODO: Add validation */
-      thisWidget.value = newValue;
-      thisWidget.input.value = thisWidget.value;
       if(thisWidget.value !== newValue && isNaN(newValue) == false && newValue >= settings.amountWidget.defaultMin && newValue <= settings.amountWidget.defaultMax){
         thisWidget.value = newValue;
-        console.log('pokaż zmianę ilości:', newValue);
+        console.log('show change of quantity:', newValue);
+        console.log('pokaż isNaN(newValue): ', isNaN(newValue));
       } 
       thisWidget.input.value = thisWidget.value;
+      console.log('thisWidget:', thisWidget);
+
+      thisWidget.announce();
+      console.log('triggered announce');
     }
 
 
@@ -247,6 +253,12 @@
         event.preventDefault();
         thisWidget.setValue(thisWidget.value + settings.amountWidget.defaultValue);
       });
+    }
+
+    announce(){
+      const thisWidget = this;
+      const event = new Event('updated');
+      thisWidget.element.dispatchEvent(event);
     }
   }
 
