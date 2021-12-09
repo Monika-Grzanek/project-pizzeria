@@ -383,6 +383,20 @@
       thisCart.dom.productList.addEventListener('updated', function(){
         thisCart.update();
       });
+
+      thisCart.dom.productList.addEventListener('remove', function(event){
+        thisCart.remove(event.detail.cartProduct);
+      });
+    }
+
+    remove(cartProduct){
+      const thisCart = this;
+      const removeDomProduct = cartProduct.dom.wrapper;
+      removeDomProduct.remove();
+      const indexOfCartProduct = thisCart.products.indexOf(cartProduct);
+      const removeIndexOfCartProduct = thisCart.products.splice(indexOfCartProduct, 1);
+      console.log('removeIndexOfCartProduct', removeIndexOfCartProduct);
+      thisCart.update();
     }
 
     add(menuProduct){
@@ -443,6 +457,7 @@
 
       thisCartProduct.getElements(element);
       thisCartProduct.initAmountWidget();
+      thisCartProduct.initActions();
 
       console.log('show thisCartProduct', thisCartProduct);
     }
@@ -450,12 +465,13 @@
     getElements(element){
       const thisCartProduct = this;
 
-      thisCartProduct.dom = {};
-      thisCartProduct.dom.wrapper = element;
-      thisCartProduct.dom.amountWidget = document.querySelector(select.cartProduct.amountWidget);
-      thisCartProduct.dom.price = document.querySelector(select.cartProduct.price);
-      thisCartProduct.dom.edit = document.querySelector(select.cartProduct.edit);
-      thisCartProduct.dom.remove = document.querySelector(select.cartProduct.remove);
+      thisCartProduct.dom = {
+        wrapper: element,
+        amountWidget: element.querySelector(select.cartProduct.amountWidget),
+        price: element.querySelector(select.cartProduct.price),
+        edit: element.querySelector(select.cartProduct.edit),
+        remove: element.querySelector(select.cartProduct.remove),
+      };
       
       console.log('show CartProduct', thisCartProduct);
     }
@@ -481,6 +497,18 @@
         }
       });
       thisCartProduct.dom.wrapper.dispatchEvent(event);
+    }
+
+    initActions(){
+      const thisCartProduct = this;
+      thisCartProduct.dom.edit.addEventListener('click', function(event){
+        event.preventDefault();
+      });
+      thisCartProduct.dom.remove.addEventListener('click', function(event){
+        event.preventDefault();
+        thisCartProduct.remove();
+        console.log('remove', thisCartProduct);
+      });
     }
   }
 
