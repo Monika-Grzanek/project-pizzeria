@@ -471,6 +471,23 @@
         products: []
       };
       console.log('payload', payload);
+      for(let prod of thisCart.products) {
+        payload.products.push(prod.getData());
+      }
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload)
+      }; 
+
+      fetch(url, options)
+        .then(function(response){
+          return response.json();
+        }).then(function(parsedResponse){
+          console.log('parsedResponse', parsedResponse);
+        });
     }
   }
   
@@ -483,6 +500,7 @@
       thisCartProduct.amount =  menuProduct.amount;
       thisCartProduct.priceSingle = menuProduct.priceSingle;
       thisCartProduct.price = menuProduct.price;
+      thisCartProduct.params = menuProduct.params;
 
       thisCartProduct.getElements(element);
       thisCartProduct.initAmountWidget();
@@ -538,6 +556,21 @@
         thisCartProduct.remove();
         console.log('remove', thisCartProduct);
       });
+    }
+
+    getData(){
+      const thisCartProduct = this;
+      const dataLoad = {
+        id: thisCartProduct.id, 
+        name: thisCartProduct.name,
+        amount:  thisCartProduct.amount,
+        priceSingle: thisCartProduct.priceSingle,
+        price: thisCartProduct.amount * thisCartProduct.priceSingle,
+        params: thisCartProduct.params
+      };
+      console.log('show dataLoad: ', dataLoad);
+
+      return dataLoad;
     }
   }
 
