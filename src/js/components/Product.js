@@ -1,6 +1,6 @@
-import {select, templates, classNames, } from './settings.js';
-import utils from './utils.js';
-import AmountWidget from './AmountWidget';
+import {select, templates, classNames, } from '../settings.js';
+import {utils} from '../utils.js';
+import AmountWidget from './AmountWidget.js';
 
 class Product{
   constructor(id, data){
@@ -170,10 +170,11 @@ class Product{
     const event = new CustomEvent('add-to-cart', {
       bubbles: true,
       detail: {
-        product: thisProduct,
+        product: thisProduct.prepareCartProduct(),
       },
     });
     thisProduct.element.dispatchEvent(event);
+    console.log('event', event);
     // to jednak nie koniec- aby ten event coś spowodował musimy go nasłuchiwać w naszym obiekcie App
   }
 
