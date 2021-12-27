@@ -1,6 +1,7 @@
 import {settings, select, classNames, templates} from './settings.js';
 import Product from './components/Product.js';
 import Cart from './components/Cart.js';  
+import Booking from './components/Booking.js';
 
 const app = {
   initPages: function(){
@@ -13,9 +14,18 @@ const app = {
     thisApp.navLinks = document.querySelectorAll(select.nav.links);
     const idFromHash = window.location.hash.replace('#/', '');
     console.log('show idFromHash', idFromHash);
-    thisApp.activatePage(idFromHash); 
+
+    let pageMatchingHash = thisApp.pages[0].id; // zmienna została zdefiniowana przed pętlą, ponieważ będzie potrzebna również po za pętlą
+    for(let page of thisApp.pages){ //w tej pętli dlakażdej strony spawdzamy czy jej id jest równe id wydobytemu z hasha strony
+      if(page.id == idFromHash){
+        pageMatchingHash = page.id;
+        break;
+      }
+    }
+
+    thisApp.activatePage(pageMatchingHash); 
     // teraz musimy dodać nasłuchiwacz do każdego linku
-    for(let link in thisApp.navLinks){
+    for(let link of thisApp.navLinks){
       link.addEventListener('click', function(event){
         const clickedElement = this; //zazwyczaj w handlerze eventu wpisujemy definicję stałej w której zapisujemy obiekt this
         event.preventDefault();
@@ -37,13 +47,13 @@ const app = {
     // Powinna też wyróżninać zakładkę strony aktualnie wyświetlanej
 
     /* add class active to matching pages, remove from non-matching pages */
-    for(let page in thisApp.pages){
+    for(let page of thisApp.pages){
       page.classList.toggle(classNames.pages.active, page.id == pageId); // w toggle pierwszym argumentem jest podanie nazwy klasy, a w drugim argumencie warunek jaki musi spełniać 
     }
     /* add class active to matching links, remove from non-matching links */
-    for(let link in thisApp.navLinks){ // dla każdego z linków w thisApp.navLinks chcemy dodać lub usunąć klasę active w zależności od tego czy atrybut href tego linka jest równy id podanej podstrony
+    for(let link of thisApp.navLinks){ // dla każdego z linków w thisApp.navLinks chcemy dodać lub usunąć klasę active w zależności od tego czy atrybut href tego linka jest równy id podanej podstrony
       link.classList.toggle(
-        classNames.pages.active, 
+        classNames.nav.active,   
         link.getAttribute('href') == '#' + pageId
       ); // w toggle pierwszym argumentem jest podanie nazwy klasy, a w drugim argumencie warunek jaki musi spełniać 
     }
@@ -89,8 +99,11 @@ const app = {
     console.log('classNames:', classNames);
     console.log('settings:', settings);
     console.log('templates:', templates);
+
+    thisApp.initPages();
     thisApp.initData();
     thisApp.initCart();
+    thisApp.initBooking();
   },
 
   initCart: function(){
@@ -107,6 +120,12 @@ const app = {
     thisApp.productList.addEventListener('add-to-cart', function(event){
       app.cart.add(event.detail.product);
     });
+  }
+
+  initBooking: function(){
+    const thisApp = this;
+
+    thisApp.bookingPage = document.querySelector(select.containerOf.booking);
   }
 };
   
