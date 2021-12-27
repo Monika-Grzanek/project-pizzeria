@@ -92,6 +92,13 @@ const app = {
     console.log('thisApp.data', JSON.stringify(thisApp.data));
   },
 
+  initBooking: function(){
+    const thisApp = this;
+
+    const bookingContainer = document.querySelector(select.containerOf.booking);
+    thisApp.booking = new Booking(bookingContainer);
+  },
+
   init: function(){
     const thisApp = this;
     console.log('*** App starting ***');
@@ -120,12 +127,6 @@ const app = {
     thisApp.productList.addEventListener('add-to-cart', function(event){
       app.cart.add(event.detail.product);
     });
-  }
-
-  initBooking: function(){
-    const thisApp = this;
-
-    thisApp.bookingPage = document.querySelector(select.containerOf.booking);
   }
 };
   
