@@ -1,61 +1,57 @@
 import {select, settings} from '../settings.js';
+import BaseWidget from './BaseWidget.js';
 
-class AmountWidget{
+class AmountWidget extends BaseWidget{//taki zapis oznacza, że klasa AmountWidget jest rozszerzeniem klasy BaseWidget
   constructor(element){
+    super(element, settings.amountWidget.defaultValue); // przy dziedziczeniu ważne jest aby odwołać się do konstruktora klasy nadrzędnej poprzez wyrażenie super w którym podajemy argumenty konstruktora nadrzędnego przekształconego na nową klasę - tutaj wrapperem jest element, a początkową wartością drugi zdefiniowany argument
     const thisWidget = this;
     console.log('AmountWidget:', thisWidget);
     console.log('constructor arguments:', element);
     thisWidget.getElements(element);
-    thisWidget.setValue(settings.amountWidget.defaultValue);
     thisWidget.initActions();
   }
 
-  getElements(element){
+  getElements(){
     const thisWidget = this;
     
-    thisWidget.element = element;
-    thisWidget.input = thisWidget.element.querySelector(select.widgets.amount.input);
-    thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amount.linkDecrease);
-    thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease);
+    thisWidget.dom.input = thisWidget.dom.wrapper.querySelector(select.widgets.amount.input);
+    thisWidget.dom.linkDecrease = thisWidget.dom.wrapper.querySelector(select.widgets.amount.linkDecrease);
+    thisWidget.dom.linkIncrease = thisWidget.dom.wrapper.querySelector(select.widgets.amount.linkIncrease);
   }
 
-  setValue(value){
+  // Ponieważ metoda setValue posiada warunek, że przyjmuje tylko liczbowe wartości to nie pasuje nam do wszystkich widgetów w projekcie (np. do kalendarza)
+  // Należy zatem stworzyć uniwersalną metodę którą będzie można przenieść do konstruktora klasy nadrzędnej
+  // Każda z nich będzie przyjmować jeden argument - value
+ 
+  /*parseValue(value){ // będzie wykorzystana do przekształcania tego co chcemy ustawić na odpowiedni typ lub format
+    return parseInt(value); 
+  } metoda ta jest identyczna jak w BaseWidget, więc nie musi tutaj być aktywna */
+
+  isValid(value){// będzie ustalać prawdziwość lub fałsz zależnie od tego czy uzyskana wartość dla tego widgetu jest prawidłowa wg ustalonych kryteriów dla każdego widgetu
+    return !isNaN(value)
+    && value >= settings.amountWidget.defaultMin 
+    && value <= settings.amountWidget.defaultMax;
+  } // ta metoda została, ponieważ różni się od tej w BaseWidget i została napisana o dodatkowy kod
+
+  renderValue(){//metoda ta służy temu, by bieżąca wartość widgetu została wyświetlona/wyrenderowana na stronie 
     const thisWidget = this;
-    const newValue = parseInt(value);
-    if(thisWidget.value !== newValue && isNaN(newValue) == false && newValue >= settings.amountWidget.defaultMin && newValue <= settings.amountWidget.defaultMax){
-      thisWidget.value = newValue;
-      console.log('show change of quantity:', newValue);
-      console.log('pokaż isNaN(newValue): ', isNaN(newValue));
-    } 
-    thisWidget.input.value = thisWidget.value;
-    console.log('thisWidget:', thisWidget);
 
-    thisWidget.announce();
-    console.log('triggered announce');
+    thisWidget.dom.input.value = thisWidget.value;
   }
-
 
   initActions(){
     const thisWidget = this;
-    thisWidget.input.addEventListener('change', function(){
-      thisWidget.setValue(thisWidget.input.value);
-    });
-    thisWidget.linkDecrease.addEventListener('click', function(event){
+    thisWidget.dom.input.addEventListener('change', function(){
+      thisWidget.setValue(thisWidget.dom.input.value);
+    });// Aby w tym przypadku nie korzystać z setValue korzystamy z gettera i settera -  są to metody które zostana automatycznie wykonane w momencie odczytania lub zmiany wartości dla jakiejś określonej właściwości instancji klasy 
+    thisWidget.dom.linkDecrease.addEventListener('click', function(event){
       event.preventDefault();
       thisWidget.setValue(thisWidget.value - settings.amountWidget.defaultValue);
     });
-    thisWidget.linkIncrease.addEventListener('click', function(event){
+    thisWidget.dom.linkIncrease.addEventListener('click', function(event){
       event.preventDefault();
       thisWidget.setValue(thisWidget.value + settings.amountWidget.defaultValue);
     });
-  }
-
-  announce(){
-    const thisWidget = this;
-    const event = new CustomEvent('updated', {
-      bubbles: true
-    });
-    thisWidget.element.dispatchEvent(event);
   }
 }
 
