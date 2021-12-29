@@ -8,7 +8,9 @@ class AmountWidget extends BaseWidget{//taki zapis oznacza, że klasa AmountWidg
     console.log('AmountWidget:', thisWidget);
     console.log('constructor arguments:', element);
     thisWidget.getElements(element);
+    thisWidget.value = thisWidget.dom.input.value || settings.amountWidget.defaultValue;
     thisWidget.initActions();
+    console.log('-show thisWidget-', element, settings.amountWidget.defaultValue);
   }
 
   getElements(){

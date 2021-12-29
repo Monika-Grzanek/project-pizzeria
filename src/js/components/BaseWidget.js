@@ -1,12 +1,10 @@
 class BaseWidget{
 // w konstruktorze przyjmujemy 2 agrumenty: element dom danego widgetu oraz jego początkową wartość
-  constructor(wrapperElement, initialValue){
+  constructor(wrapperElement){
     const thisWidget = this;
 
     thisWidget.dom = {}; // w tym obiekcie będziemy zapisywać wszystkie elementy dom 
     thisWidget.dom.wrapper = wrapperElement;
-    
-    thisWidget.correctValue = initialValue; // początkowa wartość widgetu została zapisana we właściwości value
   }
 
   get value(){
