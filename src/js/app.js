@@ -2,6 +2,7 @@ import {settings, select, classNames, templates} from './settings.js';
 import Product from './components/Product.js';
 import Cart from './components/Cart.js';  
 import Booking from './components/Booking.js';
+import HomePage from './components/HomePage.js';
 
 const app = {
   initPages: function(){
@@ -59,6 +60,14 @@ const app = {
     }
   },
 
+  initHome: function(){
+    const thisApp = this;
+
+    const homeContainer = document.querySelector(select.containerOf.home);
+    thisApp.homePage = new HomePage(homeContainer);
+    console.log('homeContainer', homeContainer);
+  },
+
   initMenu: function(){
     const thisApp = this;
 
@@ -99,6 +108,16 @@ const app = {
     thisApp.booking = new Booking(bookingContainer);
   },
 
+  initCarousel: function(){
+    const thisApp = this;
+    const elem = document.querySelector('.main-carousel');
+    const flkty = new Flickity( elem, {
+      // options
+      cellAlign: 'left',
+      contain: true
+    });
+  },
+
   init: function(){
     const thisApp = this;
     console.log('*** App starting ***');
@@ -111,6 +130,8 @@ const app = {
     thisApp.initData();
     thisApp.initCart();
     thisApp.initBooking();
+    thisApp.initHome();
+    thisApp.initCarousel();
   },
 
   initCart: function(){
