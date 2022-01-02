@@ -9,6 +9,7 @@ class Booking{
     const thisBooking = this;
 
     thisBooking.selectedTable = [];
+    thisBooking.tableReservation = [];
     thisBooking.render(element);
     thisBooking.initWidgets();
     thisBooking.getData(); // będzie pobierać dane z API używając adresów z parametrami filtrującymi wyniki
@@ -164,6 +165,11 @@ class Booking{
     thisBooking.dom.hourPicker = element.querySelector(select.widgets.hourPicker.wrapper);
     thisBooking.dom.tables = element.querySelectorAll(select.booking.tables);
     thisBooking.dom.tablesWrapper = element.querySelector(select.booking.tablesWrapper);
+    thisBooking.dom.form = element.querySelector(select.booking.form);
+    thisBooking.dom.submit = element.querySelector(select.booking.submit);
+    thisBooking.dom.phone = element.querySelector(select.booking.phone);
+    thisBooking.dom.address = element.querySelector(select.booking.address);
+    thisBooking.dom.starters = element.querySelector(select.booking.starters);
   }
 
   initWidgets(){
@@ -177,7 +183,7 @@ class Booking{
     });
 
     thisBooking.hoursAmount = new AmountWidget(thisBooking.dom.hoursAmount);
-    thisBooking.dom.hoursAmount.addEventListener('clicked', function(){
+    thisBooking.dom.hoursAmount.addEventListener('click', function(){
       thisBooking.removeTableSelection();
     });
     

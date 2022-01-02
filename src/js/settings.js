@@ -45,6 +45,11 @@ export const select = {
     tables: '.floor-plan .table',
     tablesWrapper: '.floor-plan',
     selectedTable: '.selected',
+    form: '.booking-form',
+    submit: '.booking-form [type="submit"]',
+    phone: '.booking-form [name="phone"]',
+    address: '.booking-form [name="address"]',
+    starters: '.booking-form [name="starter"]',
   },
   nav: {
     links: '.main-nav a',
