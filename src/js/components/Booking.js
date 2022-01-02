@@ -8,8 +8,7 @@ class Booking{
   constructor(element){
     const thisBooking = this;
 
-    thisBooking.selectedTable = [];
-    thisBooking.tableReservation = [];
+    thisBooking.tableList = [];
     thisBooking.render(element);
     thisBooking.initWidgets();
     thisBooking.getData(); // będzie pobierać dane z API używając adresów z parametrami filtrującymi wyniki
@@ -166,10 +165,6 @@ class Booking{
     thisBooking.dom.tables = element.querySelectorAll(select.booking.tables);
     thisBooking.dom.tablesWrapper = element.querySelector(select.booking.tablesWrapper);
     thisBooking.dom.form = element.querySelector(select.booking.form);
-    thisBooking.dom.submit = element.querySelector(select.booking.submit);
-    thisBooking.dom.phone = element.querySelector(select.booking.phone);
-    thisBooking.dom.address = element.querySelector(select.booking.address);
-    thisBooking.dom.starters = element.querySelector(select.booking.starters);
   }
 
   initWidgets(){
@@ -205,6 +200,11 @@ class Booking{
       event.preventDefault();
       thisBooking.initTable(event);
     });
+
+    thisBooking.dom.form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      thisBooking.sendBooking();
+    });
   }
 
   initTable(event){
@@ -238,7 +238,43 @@ class Booking{
     console.log('show tableList', thisBooking.tableList);
   }
 
+  sendBooking(){
+    const thisBooking = this;
+    const url = settings.db.url + '/' + settings.db.booking;
+    const formData = utils.serializeFormToObject(thisBooking.dom.form);
+    console.log('formData Booking', formData);
+    console.log('url Booking', url);
+    const payload = {
+      date: formData.people,
+      hour: formData.hour,
+      table: parseInt(thisBooking.tableList),
+      duration: parseInt(formData.hours),
+      ppl: parseInt(formData.people),
+      phone: formData.phone,
+      address: formData.address,
+      starters: []
+    };
+    console.log('payload', payload);
 
+    payload.starters.push(formData.starter);
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload)
+    }; 
+
+    fetch(url, options)
+      .then(function(response){
+        return response.json();
+      }).then(function(parsedResponse){
+        console.log('parsedResponse Booking', parsedResponse);
+      }); 
+    
+    thisBooking.makeBooked(payload.date, payload.hour,payload.duration,payload.table);
+  }
 }
 
 
