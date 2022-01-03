@@ -266,14 +266,14 @@ class Booking{
       body: JSON.stringify(payload)
     }; 
 
-    fetch(url, options);
-    //.then(function(response){
-    //return response.json();
-    //}).then(function(parsedResponse){
-    //console.log('parsedResponse Booking', parsedResponse);
-    thisBooking.makeBooked(payload.date, payload.hour,payload.duration,payload.table);
-    console.log('thisBooking.booked: ', thisBooking.booked);
-    //}); 
+    fetch(url, options)
+      .then(function(response){
+        return response.json();
+      }).then(function(parsedResponse){
+        console.log('parsedResponse Booking', parsedResponse);
+        thisBooking.makeBooked(payload.date, payload.hour,payload.duration,payload.table);
+        console.log('thisBooking.booked: ', thisBooking.booked);
+      }); 
   }
 }
 
