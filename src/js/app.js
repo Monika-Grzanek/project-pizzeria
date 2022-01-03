@@ -108,7 +108,7 @@ const app = {
     thisApp.booking = new Booking(bookingContainer);
   },
 
-  /*initCarousel: function(){
+  initCarousel: function(){
     const thisApp = this;
     const elem = document.querySelector('.main-carousel');
     const flkty = new Flickity( elem, {
@@ -116,7 +116,9 @@ const app = {
       cellAlign: 'left',
       contain: true
     });
-  },*/
+    console.log(thisApp);
+    console.log('flkty', flkty);
+  },
 
   init: function(){
     const thisApp = this;

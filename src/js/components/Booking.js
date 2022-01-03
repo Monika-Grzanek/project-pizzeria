@@ -245,8 +245,8 @@ class Booking{
     console.log('formData Booking', formData);
     console.log('url Booking', url);
     const payload = {
-      date: formData.people,
-      hour: formData.hour,
+      date: thisBooking.datePicker.value,
+      hour: thisBooking.hourPicker.value,
       table: parseInt(thisBooking.tableList),
       duration: parseInt(formData.hours),
       ppl: parseInt(formData.people),
@@ -266,14 +266,14 @@ class Booking{
       body: JSON.stringify(payload)
     }; 
 
-    fetch(url, options)
-      .then(function(response){
-        return response.json();
-      }).then(function(parsedResponse){
-        console.log('parsedResponse Booking', parsedResponse);
-      }); 
-    
+    fetch(url, options);
+    //.then(function(response){
+    //return response.json();
+    //}).then(function(parsedResponse){
+    //console.log('parsedResponse Booking', parsedResponse);
     thisBooking.makeBooked(payload.date, payload.hour,payload.duration,payload.table);
+    console.log('thisBooking.booked: ', thisBooking.booked);
+    //}); 
   }
 }
 
