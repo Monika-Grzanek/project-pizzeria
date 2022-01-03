@@ -1,4 +1,4 @@
-import {/*settings, select, classNames,*/ templates} from './settings.js';
+import {/*settings, select, classNames, */ templates} from '../settings.js';
 
 class HomePage{
   constructor(element){
@@ -17,6 +17,6 @@ class HomePage{
     thisHomePage.dom.wrapper.innerHTML = generateHTML;
     console.log('thisHomePage.dom', thisHomePage.dom);
   }
-}
+} 
 
-export default HomePage;
+export default HomePage; 

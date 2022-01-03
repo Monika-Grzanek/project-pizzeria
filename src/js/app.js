@@ -108,7 +108,7 @@ const app = {
     thisApp.booking = new Booking(bookingContainer);
   },
 
-  initCarousel: function(){
+  /*initCarousel: function(){
     const thisApp = this;
     const elem = document.querySelector('.main-carousel');
     const flkty = new Flickity( elem, {
@@ -116,7 +116,7 @@ const app = {
       cellAlign: 'left',
       contain: true
     });
-  },
+  },*/
 
   init: function(){
     const thisApp = this;
@@ -131,7 +131,7 @@ const app = {
     thisApp.initCart();
     thisApp.initBooking();
     thisApp.initHome();
-    thisApp.initCarousel();
+    //thisApp.initCarousel();
   },
 
   initCart: function(){
