@@ -133,7 +133,7 @@ const app = {
     thisApp.initCart();
     thisApp.initBooking();
     thisApp.initHome();
-    //thisApp.initCarousel();
+    thisApp.initCarousel();
   },
 
   initCart: function(){
