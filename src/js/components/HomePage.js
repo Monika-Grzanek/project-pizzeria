@@ -1,4 +1,4 @@
-import {/*settings, select, classNames, */ templates} from '../settings.js';
+import {templates} from '../settings.js';
 
 class HomePage{
   constructor(element){

@@ -13,6 +13,7 @@ const app = {
     // aby aktywowała się pierwsza z podstron używamy metody activatePage
     // metodę tą wywołamy na kontenerze stron i przekażemy pierwszy otrzymany element 
     thisApp.navLinks = document.querySelectorAll(select.nav.links);
+    thisApp.homeLinks = document.querySelectorAll(select.home.homeLink);
     const idFromHash = window.location.hash.replace('#/', '');
     console.log('show idFromHash', idFromHash);
 
@@ -39,6 +40,17 @@ const app = {
         window.location.hash = '#/' + id; // aby po zmianie zakładki strona nie została przewinięta należy dodać po hashu '/'
       });
     }
+
+    for(let link of thisApp.homeLinks) {
+      link.addEventListener('click', function(event) {
+        event.preventDefoult();
+        const clickedElement = this;
+        const id = clickedElement.getAttribute('href').replace('#', '');
+        console.log('clickedElement: ', clickedElement);
+        thisApp.activatePage(id);
+        window.location.hash ='#/' + id;
+      });
+    } 
   },
 
   activatePage: function(pageId) {
@@ -110,11 +122,10 @@ const app = {
 
   initCarousel: function(){
     const thisApp = this;
-    const elem = document.querySelector('.main-carousel');
+    const elem = document.querySelector('.carousel');
     const flkty = new Flickity( elem, {
       // options
-      cellAlign: 'left',
-      contain: true
+      autoPlay: true
     });
     console.log(thisApp);
     console.log('flkty', flkty);
