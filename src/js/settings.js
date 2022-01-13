@@ -101,6 +101,9 @@ export const classNames = {
   },
   pages: {
     active: 'active',
+  },
+  home: {
+    active: 'active',
   }
 };
 

@@ -41,8 +41,8 @@ const app = {
       });
     }
 
-    for(let link of thisApp.homeLinks) {
-      link.addEventListener('click', function(event) {
+    for(let homeLink of thisApp.homeLinks) {
+      homeLink.addEventListener('click', function(event) {
         event.preventDefoult();
         const clickedElement = this;
         const id = clickedElement.getAttribute('href').replace('#', '');
@@ -69,6 +69,12 @@ const app = {
         classNames.nav.active,   
         link.getAttribute('href') == '#' + pageId
       ); // w toggle pierwszym argumentem jest podanie nazwy klasy, a w drugim argumencie warunek jaki musi spełniać 
+    }
+    for(let homeLink of thisApp.homeLinks){
+      homeLink.classList.toggle(
+        classNames.home.active,
+        homeLink.getAttribute('href') == '#' + pageId
+      );
     }
   },
 
