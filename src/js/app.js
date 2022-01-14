@@ -43,7 +43,7 @@ const app = {
 
     for(let homeLink of thisApp.homeLinks) {
       homeLink.addEventListener('click', function(event) {
-        event.preventDefoult();
+        event.preventDefault();
         const clickedElement = this;
         const id = clickedElement.getAttribute('href').replace('#', '');
         console.log('clickedElement: ', clickedElement);
@@ -145,12 +145,12 @@ const app = {
     console.log('settings:', settings);
     console.log('templates:', templates);
 
-    thisApp.initPages();
     thisApp.initData();
     thisApp.initCart();
     thisApp.initBooking();
     thisApp.initHome();
     thisApp.initCarousel();
+    thisApp.initPages();
   },
 
   initCart: function(){
