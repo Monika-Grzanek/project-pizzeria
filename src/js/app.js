@@ -149,8 +149,9 @@ const app = {
     thisApp.initCart();
     thisApp.initBooking();
     thisApp.initHome();
-    thisApp.initCarousel();
     thisApp.initPages();
+    thisApp.initCarousel();
+  
   },
 
   initCart: function(){
