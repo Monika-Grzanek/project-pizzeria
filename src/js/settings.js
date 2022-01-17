@@ -131,7 +131,7 @@ export const settings = {
     products: 'products',
     orders: 'orders',
     // eslint-disable-next-line no-dupe-keys
-    url: '//localhost:3131',
+    url: '//' + window.location.hostname + (window.location.hostname=='localhost' ? ':3131' : ''),
     product: 'product',
     order: 'order',
     booking: 'bookings',
